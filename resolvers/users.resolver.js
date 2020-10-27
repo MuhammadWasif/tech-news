@@ -27,4 +27,16 @@ const createUser = async (_, args, __, ___) => {
   }
 };
 
-module.exports = { createUser };
+const user = async (_, args, __, ___) => {
+  const { username } = args;
+
+  try {
+    const user = await User.findOne({ username });
+
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { user, createUser };

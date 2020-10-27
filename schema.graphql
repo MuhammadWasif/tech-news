@@ -1,6 +1,6 @@
 type Query {
   message: String!
-  user(username: String!): User!
+  user(username: String!): User
 }
 
 type Mutation {
