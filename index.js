@@ -3,12 +3,7 @@ require('dotenv').config();
 const mongose = require('mongoose');
 const { importSchema } = require('graphql-import');
 const typeDefs = importSchema('./schema.graphql');
-
-const resolvers = {
-  Query: {
-    message: () => 'Hello, World!',
-  },
-};
+const resolvers = require('./resolvers');
 
 const server = new ApolloServer({
   typeDefs,
