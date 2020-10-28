@@ -1,6 +1,7 @@
 const { ValidationError } = require('apollo-server');
 const validator = require('validator');
 const User = require('../models/user.model');
+const Link = require('../models/link.model');
 
 const createUser = async (_, args, __, ___) => {
   const { username, email, password } = args;
@@ -38,8 +39,9 @@ const user = async (_, args, __, ___) => {
 
   try {
     const user = await User.findOne({ username });
+    const links = await Link.find({ postedBy: user.id });
 
-    return user;
+    return { ...user.toJSON(), links };
   } catch (error) {
     console.log(error);
   }

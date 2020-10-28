@@ -14,6 +14,7 @@ type User {
   username: String!
   email: String!
   createdAt: String!
+  links: [Link]!
 }
 
 type Link {
