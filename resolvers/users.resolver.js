@@ -12,6 +12,12 @@ const createUser = async (_, args, __, ___) => {
   else if (!validator.isLength(password, { min: 6 }))
     throw new ValidationError('Password is not strong enough!');
 
+  // check if user already exists
+  const user =
+    (await User.findOne({ username })) || (await User.findOne({ username }));
+
+  if (user) throw new Error('User already exists!');
+
   try {
     const user = new User({
       username,

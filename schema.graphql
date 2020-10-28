@@ -1,10 +1,12 @@
 type Query {
   message: String!
   user(username: String!): User
+  links: [Link!]!
 }
 
 type Mutation {
   createUser(username: String, email: String, password: String): User!
+  createLink(url: String!, description: String!): Link!
 }
 
 type User {
@@ -12,4 +14,13 @@ type User {
   username: String!
   email: String!
   createdAt: String!
+}
+
+type Link {
+  id: ID!
+  url: String!
+  description: String!
+  createdAt: String!
+  postedBy: User!
+  votes: [User]!
 }
