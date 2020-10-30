@@ -15,6 +15,7 @@
     "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "graphql-import": "^1.0.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.11",
     "nodemon": "^2.0.6",
     "validator": "^13.1.17"

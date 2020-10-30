@@ -1,7 +1,10 @@
-const { ValidationError } = require('apollo-server');
+const { ValidationError, AuthenticationError } = require('apollo-server');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const validator = require('validator');
 const User = require('../models/user.model');
 const Link = require('../models/link.model');
+const { JWT_SECRET } = require('../helpers/utils');
 
 const createUser = async (_, args, __, ___) => {
   const { username, email, password } = args;
@@ -28,7 +31,9 @@ const createUser = async (_, args, __, ___) => {
     });
     const response = await user.save();
 
-    return response;
+    const token = jwt.sign({ user: response }, JWT_SECRET);
+
+    return { user: response.toJSON(), token };
   } catch (error) {
     console.log(error);
   }
@@ -47,4 +52,22 @@ const user = async (_, args, __, ___) => {
   }
 };
 
-module.exports = { user, createUser };
+const login = async (_, args, __, ___) => {
+  const { username, password } = args;
+
+  const user = await User.findOne({ username });
+
+  if (!user) throw new Error('User not found!');
+
+  const result = await bcrypt.compare(password, user.password);
+  const token = jwt.sign({ user }, JWT_SECRET);
+
+  if (result) return { user, token };
+  else throw new AuthenticationError('Incorrect password');
+};
+
+module.exports = {
+  user,
+  createUser,
+  login,
+};

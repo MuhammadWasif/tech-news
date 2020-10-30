@@ -1,4 +1,4 @@
-const { createUser, user } = require('./users.resolver');
+const { createUser, user, login } = require('./users.resolver');
 const { createLink, links } = require('./links.resolver');
 
 module.exports = {
@@ -10,5 +10,6 @@ module.exports = {
   Mutation: {
     createUser,
     createLink,
+    login,
   },
 };
