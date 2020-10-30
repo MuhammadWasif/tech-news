@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 const Link = require('../models/link.model');
+const { getUser, getToken } = require('../helpers/utils');
 
-const createLink = async (_, args, __, ___) => {
+const createLink = async (_, args, context, ___) => {
   const { url, description } = args;
+
+  const token = getToken(context.token);
+  const { user } = getUser(token);
 
   const link = new Link({
     url,
     description,
     createdAt: new Date(),
-    postedBy: mongoose.Types.ObjectId('5f9989baf23ac53865f3e35f'),
+    postedBy: mongoose.Types.ObjectId(user._id),
     votes: [], // there will be no votes initially
   });
 
