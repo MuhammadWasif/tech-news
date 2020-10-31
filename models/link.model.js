@@ -8,6 +8,7 @@ const LinkSchema = new Schema({
   createdAt: Date,
   postedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   votes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
 const Link = mongoose.model('Link', LinkSchema);

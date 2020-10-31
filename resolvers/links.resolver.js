@@ -14,6 +14,7 @@ const createLink = async (_, args, context, ___) => {
     createdAt: new Date(),
     postedBy: mongoose.Types.ObjectId(user._id),
     votes: [], // there will be no votes initially
+    comments: [], // there will be no comments initially, as well
   });
 
   const response = await link
@@ -28,6 +29,7 @@ const links = async () => {
     const links = await Link.find({})
       .populate('postedBy')
       .populate('votes')
+      .populate('comments')
       .exec();
 
     return links;
@@ -36,7 +38,10 @@ const links = async () => {
   }
 };
 
+const comment = async (_, args, context, __) => {};
+
 module.exports = {
   createLink,
   links,
+  comment,
 };
