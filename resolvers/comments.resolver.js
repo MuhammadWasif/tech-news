@@ -1,6 +1,7 @@
 const Comment = require('../models/comment.model');
 const Link = require('../models/link.model');
 const { getUser, getToken } = require('../helpers/utils');
+const { AuthenticationError } = require('apollo-server');
 
 const postComment = async (_, args, context, __) => {
   const { text, repliedTo } = args;
@@ -12,6 +13,7 @@ const postComment = async (_, args, context, __) => {
     text,
     repliedTo,
     postedBy: user._id,
+    createdAt: new Date(),
     votes: [],
   });
 
@@ -37,4 +39,22 @@ const comment = async (_, args) => {
   return comments;
 };
 
-module.exports = { postComment, comment };
+const deleteComment = async (_, args, context, __) => {
+  const { id } = args;
+
+  const token = getToken(context.token);
+  const { user } = getUser(token);
+
+  const comment = await Comment.findById(id).populate('postedBy');
+
+  if (comment.postedBy.password === user.password) {
+    const response = await comment.deleteOne();
+    await Comment.deleteMany({ repliedTo: id });
+
+    return response;
+  }
+
+  return new AuthenticationError();
+};
+
+module.exports = { postComment, comment, deleteComment };

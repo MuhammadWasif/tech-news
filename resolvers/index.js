@@ -1,6 +1,6 @@
 const { createUser, user, login } = require('./users.resolver');
 const { createLink, links } = require('./links.resolver');
-const { postComment, comment } = require('./comments.resolver');
+const { postComment, comment, deleteComment } = require('./comments.resolver');
 
 module.exports = {
   Query: {
@@ -14,5 +14,6 @@ module.exports = {
     createLink,
     login,
     postComment,
+    deleteComment,
   },
 };

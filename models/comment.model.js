@@ -7,6 +7,7 @@ const CommentSchema = new Schema({
   postedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   votes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   repliedTo: { type: Schema.Types.ObjectId },
+  createdAt: Date,
 });
 
 const Comment = mongoose.model('Comment', CommentSchema);
