@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Link = require('../models/link.model');
+const Comment = require('../models/comment.model');
 const { getUser, getToken } = require('../helpers/utils');
 
 const createLink = async (_, args, context, ___) => {
@@ -29,7 +30,7 @@ const links = async () => {
     const links = await Link.find({})
       .populate('postedBy')
       .populate('votes')
-      .populate('comments')
+      .populate({ path: 'comments', populate: { path: 'postedBy' } })
       .exec();
 
     return links;

@@ -15,6 +15,10 @@ const postComment = async (_, args, context, __) => {
     votes: [],
   });
 
+  await Link.findByIdAndUpdate(repliedTo, {
+    $push: { comments: comment._id },
+  }).catch((error) => console.log('An error occurred', error));
+
   const response = await comment
     .save()
     .then((res) => res.populate('postedBy').populate('votes').execPopulate());
@@ -26,10 +30,10 @@ const comment = async (_, args) => {
   const { parentID } = args;
 
   const comments = await Comment.find({ repliedTo: parentID })
+    .populate('postedBy')
     .populate('votes')
-    .populate('postedBy');
+    .exec();
 
-  console.log(comments);
   return comments;
 };
 
