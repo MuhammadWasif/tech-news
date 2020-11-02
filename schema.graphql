@@ -21,6 +21,7 @@ type User {
   email: String!
   createdAt: String!
   links: [Link]!
+  points: Int!
 }
 
 type Link {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Link = require('../models/link.model');
-const Comment = require('../models/comment.model');
+const User = require('../models/user.model');
 const { getUser, getToken } = require('../helpers/utils');
 
 const createLink = async (_, args, context, ___) => {
@@ -17,6 +17,8 @@ const createLink = async (_, args, context, ___) => {
     votes: [], // there will be no votes initially
     comments: [], // there will be no comments initially, as well
   });
+
+  await User.findOneAndUpdate({ _id: user._id }, { $inc: { points: 2 } });
 
   const response = await link
     .save()
