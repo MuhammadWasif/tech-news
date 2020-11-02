@@ -8,6 +8,7 @@ const userSchema = new Schema({
   email: String,
   password: String,
   createdAt: Date,
+  points: Number,
 });
 
 userSchema.pre('save', function (next) {

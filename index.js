@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 mongoose.connection.once('open', () => {
-  server.listen().then((host) => {
+  server.listen({ port: process.env.PORT || 4000 }).then((host) => {
     console.log(`🚀 Server running at ${host.url}`);
   });
 });
