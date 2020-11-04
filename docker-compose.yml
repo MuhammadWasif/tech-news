@@ -1,15 +1,24 @@
 version: '3.8'
 services:
-  web:
-    build: .
+  server:
+    build: ./server
     ports:
       - '5000:5000'
     volumes:
-      - .:/app/server
+      - ./server:/app/server
     environment:
       - MONGO_URI=mongodb://tech-news-mongo:27017/test
       - JWT_SECRET="s3creTt0k3n"
       - PORT=5000
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./client:/app/client
 
   db:
     image: mongo
