@@ -41,10 +41,19 @@ const links = async () => {
   }
 };
 
-const comment = async (_, args, context, __) => {};
+const link = async (_, args, __, ___) => {
+  const { id } = args;
+
+  const response = await Link.findById(id)
+    .populate('postedBy')
+    .populate('comments')
+    .exec();
+
+  return response;
+};
 
 module.exports = {
   createLink,
   links,
-  comment,
+  link,
 };

@@ -2,6 +2,7 @@ type Query {
   message: String!
   user(username: String!): User
   links: [Link!]!
+  link(id: ID!): Link!
   comment(parentID: ID!): [Comment]!
 }
 
