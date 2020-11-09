@@ -27,6 +27,7 @@ const createUser = async (_, args, __, ___) => {
       username,
       email,
       password,
+      points: 0,
       createdAt: new Date(),
     });
     const response = await user.save();

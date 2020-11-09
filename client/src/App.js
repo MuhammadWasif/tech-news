@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Home from './pages/home';
+import { Auth, User, Home } from './pages';
+
+import './scss/index.scss';
 
 function App() {
   return (
     <Router>
       <Route exact path='/' component={Home} />
+      <Route exact path='/u/:username' component={User} />
+      <Route exact path='/auth' component={Auth} />
     </Router>
   );
 }

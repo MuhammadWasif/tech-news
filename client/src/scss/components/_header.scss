@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  background-color: $primary-color;
+  padding: 0 2rem;
+  color: white;
+
+  &__title {
+    @include flex-center;
+    font-family: $primary-font;
+
+    &--icon {
+      @include flex-center;
+      margin-right: 0.6rem;
+    }
+  }
+
+  &__profile {
+    @include flex-center;
+    margin-left: auto;
+    font-size: large;
+  }
+}

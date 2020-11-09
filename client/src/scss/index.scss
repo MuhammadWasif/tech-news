@@ -1,0 +1,10 @@
+@import 'variables';
+@import 'mixins';
+@import 'global';
+
+// components
+@import 'components/header';
+@import 'components/link';
+
+// pages
+@import 'pages/home';

@@ -1,13 +1,20 @@
-import { useQuery } from '@apollo/client';
-import { LINKS_QUERY } from '../graphql/queries';
+import Header from '../components/header';
+import Link from '../components/link';
 
 function Home(props) {
-  const { data } = useQuery(LINKS_QUERY);
-
-  console.log(data);
   return (
     <div>
-      <div>Hello, World!</div>
+      <Header />
+      <div className='home'>
+        <Link
+          index={1}
+          id='fadfasdfweaer'
+          description='Thsi is a link'
+          url='https://google.com'
+          createdAt={new Date()}
+          postedBy='wasif'
+        />
+      </div>
     </div>
   );
 }
