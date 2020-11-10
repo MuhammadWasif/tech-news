@@ -27,4 +27,12 @@ const CREATE_LINK = gql`
   }
 `;
 
-export { LOGIN, SIGNUP, CREATE_LINK };
+const UPVOTE_LINK = gql`
+  mutation UpvoteLink($id: ID!) {
+    upvoteLink(id: $id) {
+      id
+    }
+  }
+`;
+
+export { LOGIN, SIGNUP, CREATE_LINK, UPVOTE_LINK };

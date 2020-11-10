@@ -3,7 +3,21 @@ import { gql } from '@apollo/client';
 const LINKS_QUERY = gql`
   {
     links {
+      id
+      url
       description
+      createdAt
+      postedBy {
+        username
+      }
+      votes {
+        username
+      }
+      comments {
+        postedBy {
+          username
+        }
+      }
     }
   }
 `;
