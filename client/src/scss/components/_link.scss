@@ -10,9 +10,11 @@
     color: white;
     font-weight: bold;
     border-radius: 6px;
-    padding: 6px;
     font-family: $primary-font;
+    font-size: small;
     margin-right: 1.6rem;
+    width: 24px;
+    height: 24px;
   }
 
   &__container {
@@ -35,10 +37,25 @@
         }
       }
     }
-
+    &--details-container {
+      margin-left: auto;
+      display: flex;
+    }
     &--votes {
       @include flex-center;
-      margin-left: auto;
+      margin-left: 0.4rem;
+      cursor: pointer;
+      & span {
+        margin-left: 0.3rem;
+      }
+    }
+    &--comments {
+      @include flex-center;
+      margin-left: 1.2rem;
+      cursor: pointer;
+      & span {
+        margin-left: 0.3rem;
+      }
     }
   }
 }

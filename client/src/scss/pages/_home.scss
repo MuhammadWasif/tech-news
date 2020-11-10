@@ -1,4 +1,5 @@
 .home {
   @include flex-center;
   @include container(70%);
+  flex-direction: column;
 }
