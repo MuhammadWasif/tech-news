@@ -1,29 +1,51 @@
-import React from 'react';
+import { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { SIGNUP } from '../graphql/mutations';
+import { LOGIN } from '../graphql/mutations';
+
+import Header from '../components/header';
 
 function Auth(props) {
-  const [login, { data, error }] = useMutation(SIGNUP, {
+  const [creds, setCreds] = useState({});
+  const [login] = useMutation(LOGIN, {
     variables: {
-      username: 'john',
-      password: '123456',
-      email: 'wasif@mail.com',
+      username: creds.username,
+      password: creds.password,
     },
   });
 
-  if (error) {
-    console.log(error);
-  }
-  if (data) {
-    console.log(data);
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCreds({
+      ...creds,
+      [name]: value,
+    });
+  };
 
-  React.useEffect(() => {
-    login();
-  }, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await login();
+
+      const { data } = response;
+
+      localStorage.setItem('auth_token', data.login.token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <div>Hello, World from Auth!</div>
+      <Header />
+      <div>
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <input type='text' name='username' onChange={handleChange} />
+          <input type='password' name='password' onChange={handleChange} />
+
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
     </div>
   );
 }
