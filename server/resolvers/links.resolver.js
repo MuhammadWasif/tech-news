@@ -46,7 +46,11 @@ const link = async (_, args, __, ___) => {
 
   const response = await Link.findById(id)
     .populate('postedBy')
-    .populate('comments')
+    .populate('votes')
+    .populate({
+      path: 'comments',
+      populate: [{ path: 'postedBy' }, { path: 'votes' }],
+    })
     .exec();
 
   return response;
