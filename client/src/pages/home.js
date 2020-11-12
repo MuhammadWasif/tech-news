@@ -6,7 +6,9 @@ import NewLink from '../components/new-link';
 import { LINKS_QUERY } from '../graphql/queries';
 
 function Home(props) {
-  const { data, loading } = useQuery(LINKS_QUERY);
+  const { data, loading } = useQuery(LINKS_QUERY, {
+    fetchPolicy: 'cache-and-network',
+  });
 
   return (
     <div>

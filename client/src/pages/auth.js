@@ -24,11 +24,10 @@ function Auth(props) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await login();
-
-      const { data } = response;
+      const { data } = await login();
 
       localStorage.setItem('auth_token', data.login.token);
+      localStorage.setItem('loggedin_user_tech_news', data.login.user.id);
     } catch (error) {
       console.log(error);
     }
