@@ -4,6 +4,9 @@ const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       token
+      user {
+        id
+      }
     }
   }
 `;
@@ -35,4 +38,27 @@ const UPVOTE_LINK = gql`
   }
 `;
 
-export { LOGIN, SIGNUP, CREATE_LINK, UPVOTE_LINK };
+const POST_COMMENT = gql`
+  mutation PostComment($text: String!, $repliedTo: ID!) {
+    postComment(text: $text, repliedTo: $repliedTo) {
+      id
+    }
+  }
+`;
+
+const UPVOTE_COMMENT = gql`
+  mutation UpvoteComment($id: ID!) {
+    upvoteComment(id: $id) {
+      id
+    }
+  }
+`;
+
+export {
+  LOGIN,
+  SIGNUP,
+  CREATE_LINK,
+  UPVOTE_LINK,
+  POST_COMMENT,
+  UPVOTE_COMMENT,
+};

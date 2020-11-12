@@ -11,6 +11,7 @@ const LINKS_QUERY = gql`
         username
       }
       votes {
+        id
         username
       }
       comments {
@@ -25,9 +26,23 @@ const LINKS_QUERY = gql`
 const SINGLE_LINK_QUERY = gql`
   query GetLink($id: ID!) {
     link(id: $id) {
+      url
       description
+      createdAt
       postedBy {
         username
+      }
+      comments {
+        id
+        text
+        createdAt
+        votes {
+          id
+        }
+        postedBy {
+          id
+          username
+        }
       }
     }
   }
@@ -44,4 +59,16 @@ const USER_QUERY = gql`
   }
 `;
 
-export { LINKS_QUERY, SINGLE_LINK_QUERY, USER_QUERY };
+const GET_REPLIES = gql`
+  query GetReplies($parentID: ID!) {
+    comment(parentID: $parentID) {
+      text
+      repliedTo
+      postedBy {
+        username
+      }
+    }
+  }
+`;
+
+export { LINKS_QUERY, SINGLE_LINK_QUERY, USER_QUERY, GET_REPLIES };
