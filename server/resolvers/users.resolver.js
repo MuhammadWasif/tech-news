@@ -45,7 +45,11 @@ const user = async (_, args, __, ___) => {
 
   try {
     const user = await User.findOne({ username });
-    const links = await Link.find({ postedBy: user.id });
+    const links = await Link.find({ postedBy: user.id })
+      .populate('votes')
+      .populate('comments')
+      .populate('postedBy')
+      .exec();
 
     return { ...user.toJSON(), links };
   } catch (error) {
