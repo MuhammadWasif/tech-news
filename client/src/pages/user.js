@@ -1,14 +1,34 @@
 import { useQuery } from '@apollo/client';
 import { USER_QUERY } from '../graphql/queries';
 
+import Header from '../components/header';
+import Link from '../components/link';
+
 function User(props) {
-  const { data } = useQuery(USER_QUERY, {
+  const { data, loading } = useQuery(USER_QUERY, {
     variables: { username: props.match.params.username },
   });
-  console.log(data);
+
+  if (data) console.log(data);
+
   return (
     <div>
-      <div>Hello, World from User Page!</div>
+      <Header />
+
+      {loading ? (
+        'Loading...'
+      ) : (
+        <div>
+          <h3>Username: {data.user.username}</h3>
+          <h3>Points: {data.user.points}</h3>
+
+          <div style={{ padding: 36 }}>
+            {data.user.links.map((e, index) => (
+              <Link key={e.id} index={index + 1} {...e} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

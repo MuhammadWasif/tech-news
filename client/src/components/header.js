@@ -1,8 +1,12 @@
-import { AiOutlineUser } from 'react-icons/ai';
+import { useContext } from 'react';
+import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import { FaRegNewspaper } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import { GlobalContext } from '../context/GlobalState';
+
 function Header() {
+  const { state, setLoggedInUser } = useContext(GlobalContext);
   return (
     <div className='header'>
       <Link to='/'>
@@ -15,7 +19,17 @@ function Header() {
       </Link>
 
       <div className='header__profile'>
-        <Link to={`/u/wasif`}>
+        {state.loggedInUser ? (
+          <button
+            onClick={async () => {
+              localStorage.clear();
+              await setLoggedInUser(null);
+            }}
+          >
+            <AiOutlineLogout /> Logout
+          </button>
+        ) : null}
+        <Link to={`/auth`}>
           <AiOutlineUser />
         </Link>
       </div>

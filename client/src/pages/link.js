@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import moment from 'moment';
 import { BiSend, BiLike } from 'react-icons/bi';
@@ -7,13 +7,17 @@ import { AiFillLike } from 'react-icons/ai';
 import Header from '../components/header';
 import { SINGLE_LINK_QUERY } from '../graphql/queries';
 import { POST_COMMENT, UPVOTE_COMMENT } from '../graphql/mutations';
-import { loggedInUser } from '../utils';
+import { GlobalContext } from '../context/GlobalState';
 
 function Link(props) {
+  const { state } = useContext(GlobalContext);
+  const { loggedInUser } = state;
+
   const [text, setText] = useState('');
 
   const { data, loading, error } = useQuery(SINGLE_LINK_QUERY, {
     variables: { id: props.match.params.id },
+    fetchPolicy: 'cache-and-network',
   });
   const [
     sendComment,
@@ -76,7 +80,7 @@ function Link(props) {
                     <p key={comment.id}>
                       <span onClick={() => upvoteComment(comment.id)}>
                         {comment.votes.filter(
-                          (vote) => vote.id === loggedInUser
+                          (vote) => vote.id === loggedInUser?.id
                         ).length !== 0 ? (
                           <span>
                             <AiFillLike /> ({comment.votes.length})

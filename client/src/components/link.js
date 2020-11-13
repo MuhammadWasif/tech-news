@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as Goto } from 'react-router-dom';
 import { BiLike } from 'react-icons/bi';
@@ -5,8 +6,8 @@ import { AiFillLike } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import moment from 'moment';
 
-import { loggedInUser } from '../utils';
 import { UPVOTE_LINK } from '../graphql/mutations';
+import { GlobalContext } from '../context/GlobalState';
 
 function Link({
   index,
@@ -18,11 +19,14 @@ function Link({
   votes,
   comments,
 }) {
+  const { state } = useContext(GlobalContext);
+  const { loggedInUser } = state;
+
   const [upvote] = useMutation(UPVOTE_LINK, { variables: { id } });
   const formattedDate = moment(new Date(Number(createdAt))).format(
     'MMM DD, YYYY'
   );
-  const likedByUser = votes.filter((vote) => vote.id === loggedInUser);
+  const likedByUser = votes.filter((vote) => vote.id === loggedInUser?.id);
 
   return (
     <div className='link'>
@@ -33,7 +37,10 @@ function Link({
             <a href={url}>{description}</a>
           </div>
           <div className='link__container--text-meta'>
-            {formattedDate} • <span>{postedBy.username}</span>
+            {formattedDate} •{' '}
+            <Goto to={`/u/${postedBy.username}`}>
+              <span>{postedBy.username}</span>
+            </Goto>
           </div>
         </div>
 

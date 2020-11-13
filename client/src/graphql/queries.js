@@ -51,9 +51,23 @@ const SINGLE_LINK_QUERY = gql`
 const USER_QUERY = gql`
   query GetUser($username: String!) {
     user(username: $username) {
-      email
+      points
+      username
       links {
+        id
+        url
         description
+        createdAt
+        postedBy {
+          username
+        }
+        votes {
+          id
+          username
+        }
+        comments {
+          id
+        }
       }
     }
   }

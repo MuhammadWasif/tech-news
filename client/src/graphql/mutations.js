@@ -6,6 +6,7 @@ const LOGIN = gql`
       token
       user {
         id
+        username
       }
     }
   }
@@ -15,6 +16,10 @@ const SIGNUP = gql`
   mutation Signup($username: String!, $password: String!, $email: String!) {
     createUser(username: $username, password: $password, email: $email) {
       token
+      user {
+        id
+        username
+      }
     }
   }
 `;
