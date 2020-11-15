@@ -59,6 +59,24 @@ const UPVOTE_COMMENT = gql`
   }
 `;
 
+const DELETE_COMMENT = gql`
+  mutation DeleteComment($id: ID!) {
+    deleteComment(id: $id) {
+      id
+      text
+    }
+  }
+`;
+
+const DELETE_LINK = gql`
+  mutation DeleteLink($id: ID!) {
+    deleteLink(id: $id) {
+      id
+      description
+    }
+  }
+`;
+
 export {
   LOGIN,
   SIGNUP,
@@ -66,4 +84,6 @@ export {
   UPVOTE_LINK,
   POST_COMMENT,
   UPVOTE_COMMENT,
+  DELETE_COMMENT,
+  DELETE_LINK,
 };

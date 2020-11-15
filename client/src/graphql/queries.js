@@ -30,6 +30,7 @@ const SINGLE_LINK_QUERY = gql`
       description
       createdAt
       postedBy {
+        id
         username
       }
       comments {

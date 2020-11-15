@@ -1,17 +1,25 @@
 import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { BiSend, BiLike } from 'react-icons/bi';
-import { AiFillLike } from 'react-icons/ai';
+import { AiFillLike, AiOutlineDelete } from 'react-icons/ai';
 
 import Header from '../components/header';
 import { SINGLE_LINK_QUERY } from '../graphql/queries';
-import { POST_COMMENT, UPVOTE_COMMENT } from '../graphql/mutations';
+import {
+  POST_COMMENT,
+  UPVOTE_COMMENT,
+  DELETE_COMMENT,
+  DELETE_LINK,
+} from '../graphql/mutations';
 import { GlobalContext } from '../context/GlobalState';
 
 function Link(props) {
   const { state } = useContext(GlobalContext);
   const { loggedInUser } = state;
+
+  const histroy = useHistory();
 
   const [text, setText] = useState('');
 
@@ -26,6 +34,7 @@ function Link(props) {
   const [voteComment, { error: voteCommentError }] = useMutation(
     UPVOTE_COMMENT
   );
+  const [deleteLink] = useMutation(DELETE_LINK);
 
   if (error) {
     console.log(error);
@@ -54,6 +63,17 @@ function Link(props) {
     }
   };
 
+  const deleteLinkHandler = async (id) => {
+    try {
+      const response = await deleteLink({ variables: { id } });
+
+      console.log(response);
+      histroy.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (errorComment) alert('An error occurred while posting comment');
   return (
     <div>
@@ -71,6 +91,11 @@ function Link(props) {
                 posted by {data.link.postedBy.username} on{' '}
                 {moment(Number(data.link.createdAt)).format('MMM DD, YYYY')}
               </h4>
+              {loggedInUser.id === data.link.postedBy.id ? (
+                <div onClick={() => deleteLinkHandler(props.match.params.id)}>
+                  <AiOutlineDelete />
+                </div>
+              ) : null}
             </div>
 
             <div>
