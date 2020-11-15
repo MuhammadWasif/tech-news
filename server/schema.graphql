@@ -14,6 +14,7 @@ type Mutation {
   deleteComment(id: ID!): Comment!
   upvoteLink(id: ID!): Link!
   upvoteComment(id: ID!): Comment!
+  deleteLink(id: ID!): Link
 }
 
 type User {

@@ -1,7 +1,7 @@
 const Comment = require('../models/comment.model');
 const Link = require('../models/link.model');
 const { getUser, getToken } = require('../helpers/utils');
-const { AuthenticationError } = require('apollo-server');
+const { ForbiddenError } = require('apollo-server');
 
 const postComment = async (_, args, context, __) => {
   const { text, repliedTo } = args;
@@ -54,7 +54,7 @@ const deleteComment = async (_, args, context, __) => {
     return response;
   }
 
-  return new AuthenticationError();
+  return new ForbiddenError('User not authorized!');
 };
 
 module.exports = { postComment, comment, deleteComment };

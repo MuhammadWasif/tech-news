@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ForbiddenError } = require('apollo-server');
 const Link = require('../models/link.model');
 const User = require('../models/user.model');
 const { getUser, getToken } = require('../helpers/utils');
@@ -56,8 +57,27 @@ const link = async (_, args, __, ___) => {
   return response;
 };
 
+const deleteLink = async (_, args, context, __) => {
+  const { id } = args;
+
+  const token = getToken(context.token);
+  const { user } = getUser(token);
+
+  const userFromDB = await User.findById(user._id);
+
+  if (userFromDB && userFromDB.password === user.password) {
+    const link = await Link.findById(id);
+    const response = await link.deleteOne();
+
+    return response;
+  }
+
+  throw new ForbiddenError('User not authorized!');
+};
+
 module.exports = {
   createLink,
+  deleteLink,
   links,
   link,
 };

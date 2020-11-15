@@ -1,5 +1,5 @@
 const { createUser, user, login } = require('./users.resolver');
-const { createLink, links, link } = require('./links.resolver');
+const { createLink, links, link, deleteLink } = require('./links.resolver');
 const { postComment, comment, deleteComment } = require('./comments.resolver');
 const { upvoteLink, upvoteComment } = require('./upvote.resolver');
 
@@ -19,5 +19,6 @@ module.exports = {
     deleteComment,
     upvoteLink,
     upvoteComment,
+    deleteLink,
   },
 };
