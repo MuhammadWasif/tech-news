@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { ForbiddenError } = require('apollo-server');
 const Link = require('../models/link.model');
 const User = require('../models/user.model');
+const Comment = require('../models/comment.model');
 const { getUser, getToken } = require('../helpers/utils');
 
 const createLink = async (_, args, context, ___) => {
@@ -67,6 +68,7 @@ const deleteLink = async (_, args, context, __) => {
 
   if (userFromDB && userFromDB.password === user.password) {
     const link = await Link.findById(id);
+    await Comment.deleteMany({ repliedTo: id });
     const response = await link.deleteOne();
 
     return response;
