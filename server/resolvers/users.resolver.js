@@ -30,11 +30,11 @@ const createUser = async (_, args, __, ___) => {
       points: 0,
       createdAt: new Date(),
     });
-    const response = await user.save();
+    const response = await (await user.save()).toJSON();
 
     const token = jwt.sign({ user: response }, JWT_SECRET);
 
-    return { user: response.toJSON(), token };
+    return { user: { ...response, id: response._id }, token };
   } catch (error) {
     console.log(error);
   }
