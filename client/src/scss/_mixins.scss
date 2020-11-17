@@ -8,3 +8,15 @@
   width: $width;
   margin: auto;
 }
+
+@mixin button-styles($bg: white, $color: '#333') {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  border: none;
+  margin: 0 0.2rem;
+  cursor: pointer;
+  background-color: $bg;
+  color: $color;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
