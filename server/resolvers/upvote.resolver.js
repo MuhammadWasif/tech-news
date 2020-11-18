@@ -1,10 +1,11 @@
 const Comment = require('../models/comment.model');
 const Link = require('../models/link.model');
-const { getUser, getToken } = require('../helpers/utils');
+const { getUser, getToken, UPVOTE_LINK } = require('../helpers/utils');
 
 const upvoteLink = async (_, args, context, __) => {
   // if link is already upvoted then calling this mutation will downvote the link
   const { id } = args;
+  const { pubsub } = context;
 
   const token = getToken(context.token);
   const { user } = getUser(token);
@@ -18,6 +19,7 @@ const upvoteLink = async (_, args, context, __) => {
       { $pull: { votes: user._id } }
     );
 
+    pubsub.publish(UPVOTE_LINK, { upvoteLink: response.toJSON() });
     return response;
   }
 
@@ -26,6 +28,7 @@ const upvoteLink = async (_, args, context, __) => {
     { $push: { votes: user._id } }
   );
 
+  pubsub.publish(UPVOTE_LINK, { upvoteLink: response.toJSON() });
   return response;
 };
 

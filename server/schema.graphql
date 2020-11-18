@@ -17,6 +17,10 @@ type Mutation {
   deleteLink(id: ID!): Link
 }
 
+type Subscription {
+  upvoteLink(id: ID!): Link!
+}
+
 type User {
   id: ID!
   username: String!
