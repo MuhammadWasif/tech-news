@@ -1,0 +1,53 @@
+.single-link {
+  padding: 0 1rem;
+  &__header {
+    & h2 {
+      font-family: $secondary-font;
+      margin-bottom: 0;
+    }
+    & h4 {
+      font-family: $primary-font;
+      margin-top: 4px;
+      font-weight: 400;
+      color: $color-light;
+      & span {
+        @include link-hover;
+      }
+    }
+  }
+
+  &__comments {
+    &--comment {
+      background-color: #efefef;
+      border-radius: 6px;
+      padding: 0rem 0.6rem;
+      font-family: $secondary-font;
+      font-weight: 200;
+      & p {
+        & i {
+          color: $color-light;
+          @include link-hover;
+          font-size: small;
+        }
+        &:nth-child(2) {
+          margin: none;
+        }
+      }
+    }
+  }
+
+  &__new {
+    display: flex;
+    align-items: center;
+    & input {
+      @include input-styles;
+      background-color: #efefef;
+      text-align: left;
+    }
+    & button {
+      @include button-styles($primary-color, white);
+      @include flex-center;
+      font-size: large;
+    }
+  }
+}

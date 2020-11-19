@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../components/header';
 import { CREATE_LINK } from '../graphql/mutations';
 
 function New(props) {
   const [data, setData] = useState({});
+
+  const history = useHistory();
 
   const [postLink] = useMutation(CREATE_LINK, {
     variables: { description: data.description, url: data.url },
@@ -24,6 +27,7 @@ function New(props) {
     try {
       const { data } = await postLink();
       console.log(data);
+      history.push('/');
     } catch (error) {
       console.log(error);
     }

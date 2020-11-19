@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as Goto } from 'react-router-dom';
-import { BiLike } from 'react-icons/bi';
-import { AiFillLike } from 'react-icons/ai';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import moment from 'moment';
 
@@ -22,7 +21,7 @@ function Link({
   const { state } = useContext(GlobalContext);
   const { loggedInUser } = state;
 
-  const [upvote] = useMutation(UPVOTE_LINK, { variables: { id } });
+  const [upvote, { loading }] = useMutation(UPVOTE_LINK, { variables: { id } });
   const formattedDate = moment(new Date(Number(createdAt))).format(
     'MMM DD, YYYY'
   );
@@ -45,11 +44,14 @@ function Link({
         </div>
 
         <div className='link__container--details-container'>
-          <div className='link__container--votes' onClick={upvote}>
+          <div
+            className='link__container--votes'
+            onClick={!loading ? upvote : null}
+          >
             {likedByUser.length !== 0 ? (
               <AiFillLike color='#ea5b0c' />
             ) : (
-              <BiLike />
+              <AiOutlineLike />
             )}
             <span>{votes.length}</span>
           </div>

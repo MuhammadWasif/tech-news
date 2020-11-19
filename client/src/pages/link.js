@@ -1,16 +1,15 @@
 import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link as Goto } from 'react-router-dom';
 import moment from 'moment';
 import { BiSend, BiLike } from 'react-icons/bi';
-import { AiFillLike, AiOutlineDelete } from 'react-icons/ai';
+import { AiFillLike, AiOutlineDelete, AiOutlineLike } from 'react-icons/ai';
 
 import Header from '../components/header';
 import { SINGLE_LINK_QUERY } from '../graphql/queries';
 import {
   POST_COMMENT,
   UPVOTE_COMMENT,
-  DELETE_COMMENT,
   DELETE_LINK,
 } from '../graphql/mutations';
 import { GlobalContext } from '../context/GlobalState';
@@ -31,9 +30,7 @@ function Link(props) {
     sendComment,
     { error: errorComment, loading: commentLoading },
   ] = useMutation(POST_COMMENT);
-  const [voteComment, { error: voteCommentError }] = useMutation(
-    UPVOTE_COMMENT
-  );
+  const [voteComment] = useMutation(UPVOTE_COMMENT);
   const [deleteLink] = useMutation(DELETE_LINK);
 
   if (error) {
@@ -78,18 +75,23 @@ function Link(props) {
   return (
     <div>
       <Header />
-      <div>
+      <div className='single-link'>
         {loading ? (
           'Loading...'
         ) : (
           <>
-            <div>
+            <div className='single-link__header'>
               <a href={data.link.url}>
                 <h2>{data.link.description}</h2>
               </a>
               <h4>
-                posted by {data.link.postedBy.username} on{' '}
-                {moment(Number(data.link.createdAt)).format('MMM DD, YYYY')}
+                posted by{' '}
+                <span>
+                  <Goto to={`/u/${data.link.postedBy.username}`}>
+                    {data.link.postedBy.username}
+                  </Goto>
+                </span>{' '}
+                on {moment(Number(data.link.createdAt)).format('MMM DD, YYYY')}
               </h4>
               {loggedInUser.id === data.link.postedBy.id ? (
                 <div onClick={() => deleteLinkHandler(props.match.params.id)}>
@@ -98,34 +100,48 @@ function Link(props) {
               ) : null}
             </div>
 
-            <div>
+            <div className='single-link__comments'>
               {data.link.comments.map((comment) => {
                 return (
-                  <>
-                    <p key={comment.id}>
+                  <div
+                    key={comment.id}
+                    className='single-link__comments--comment'
+                  >
+                    <p>
+                      {comment.text} <br />
+                      <i>
+                        by{' '}
+                        <Goto to={`/u/${comment.postedBy.username}`}>
+                          {comment.postedBy.username}
+                        </Goto>{' '}
+                        on{' '}
+                        {moment(Number(comment.createdAt)).format(
+                          'MMM DD, YYYY'
+                        )}
+                      </i>
+                    </p>
+
+                    <p>
                       <span onClick={() => upvoteComment(comment.id)}>
                         {comment.votes.filter(
                           (vote) => vote.id === loggedInUser?.id
                         ).length !== 0 ? (
-                          <span>
-                            <AiFillLike /> ({comment.votes.length})
-                          </span>
+                          <AiFillLike color='#ea5b0c' />
                         ) : (
-                          <span>
-                            <BiLike />({comment.votes.length})
-                          </span>
-                        )}{' '}
+                          <AiOutlineLike />
+                        )}
                       </span>
-                      {comment.text} • by {comment.postedBy.username}
+                      {comment.votes.length}
                     </p>
-                  </>
+                  </div>
                 );
               })}
             </div>
 
-            <div>
+            <div className='single-link__new'>
               <input
                 type='text'
+                placeholder='Add a comment...'
                 value={text}
                 onChange={(e) => setText(e.target.value)}
               />

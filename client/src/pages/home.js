@@ -10,8 +10,6 @@ function Home(props) {
   const { data, loading } = useQuery(LINKS_QUERY);
   const { data: subData, error } = useSubscription(UPVOTE_LINK_SUB);
 
-  if (error) console.error(error);
-
   return (
     <div>
       <Header />
