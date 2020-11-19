@@ -17,6 +17,15 @@
   &__profile {
     @include flex-center;
     margin-left: auto;
-    font-size: large;
+    font-size: x-large;
+
+    & button {
+      background-color: transparent;
+      border: none;
+      color: white;
+      @include flex-center;
+      margin-right: 0.4rem;
+      cursor: pointer;
+    }
   }
 }

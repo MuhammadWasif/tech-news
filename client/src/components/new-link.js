@@ -1,12 +1,14 @@
-import { IoMdAdd } from 'react-icons/io';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 function NewLink() {
   return (
-    <div>
-      <Link to='/new'>
-        <IoMdAdd />
-      </Link>
-    </div>
+    <Link to='/new'>
+      <div className='home__new--button'>
+        <center>
+          <IoIosAddCircleOutline />
+        </center>
+      </div>
+    </Link>
   );
 }
 

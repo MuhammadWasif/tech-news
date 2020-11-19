@@ -26,7 +26,7 @@ function Header() {
               await setLoggedInUser(null);
             }}
           >
-            <AiOutlineLogout /> Logout
+            <AiOutlineLogout style={{ marginRight: 4 }} /> Logout
           </button>
         ) : null}
         <Link to={`/auth`}>

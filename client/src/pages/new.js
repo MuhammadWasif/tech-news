@@ -32,23 +32,26 @@ function New(props) {
   return (
     <div>
       <Header />
+      <div className='new'>
+        <h2>Submit a Link</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          placeholder='Title'
-          name='description'
-          onChange={handleChange}
-        />
-        <input
-          type='url'
-          placeholder='URL'
-          name='url'
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type='text'
+            placeholder='Title'
+            name='description'
+            onChange={handleChange}
+          />
+          <input
+            type='url'
+            placeholder='URL'
+            name='url'
+            onChange={handleChange}
+          />
 
-        <button type='submit'>Submit</button>
-      </form>
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
     </div>
   );
 }

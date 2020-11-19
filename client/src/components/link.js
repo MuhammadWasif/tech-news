@@ -46,11 +46,15 @@ function Link({
 
         <div className='link__container--details-container'>
           <div className='link__container--votes' onClick={upvote}>
-            {likedByUser.length !== 0 ? <AiFillLike /> : <BiLike />}
+            {likedByUser.length !== 0 ? (
+              <AiFillLike color='#ea5b0c' />
+            ) : (
+              <BiLike />
+            )}
             <span>{votes.length}</span>
           </div>
 
-          <div className='link__container--comments' onClick={upvote}>
+          <div className='link__container--comments'>
             <Goto to={`/link/${id}`}>
               <FaRegComment /> <span>{comments.length}</span>
             </Goto>
