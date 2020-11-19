@@ -18,17 +18,18 @@ const upvoteLink = async (_, args, context, __) => {
         { $pull: { votes: user._id } },
         { new: true }
       )
+        .populate('votes')
+        .exec()
     : await Link.findOneAndUpdate(
-        { _id: require('mongoose').Types.ObjectId(id) },
+        { _id: id },
         { $push: { votes: user._id } },
         { new: true }
-      );
+      )
+        .populate('votes')
+        .exec();
 
   pubsub.publish(UPVOTE_LINK, {
-    upvoteLink: {
-      ...response.toJSON(),
-      id: require('mongoose').Types.ObjectId(response._id),
-    },
+    upvoteLink: response,
   });
   return response;
 };
