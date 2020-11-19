@@ -12,23 +12,24 @@ const upvoteLink = async (_, args, context, __) => {
 
   const link = await Link.findById(id);
 
-  // check if it's already upvoted
-  if (link.votes.includes(user._id)) {
-    const response = await Link.findOneAndUpdate(
-      { _id: id },
-      { $pull: { votes: user._id } }
-    );
+  const response = link.votes.includes(user._id)
+    ? await Link.findOneAndUpdate(
+        { _id: id },
+        { $pull: { votes: user._id } },
+        { new: true }
+      )
+    : await Link.findOneAndUpdate(
+        { _id: require('mongoose').Types.ObjectId(id) },
+        { $push: { votes: user._id } },
+        { new: true }
+      );
 
-    pubsub.publish(UPVOTE_LINK, { upvoteLink: response.toJSON() });
-    return response;
-  }
-
-  const response = await Link.findOneAndUpdate(
-    { _id: id },
-    { $push: { votes: user._id } }
-  );
-
-  pubsub.publish(UPVOTE_LINK, { upvoteLink: response.toJSON() });
+  pubsub.publish(UPVOTE_LINK, {
+    upvoteLink: {
+      ...response.toJSON(),
+      id: require('mongoose').Types.ObjectId(response._id),
+    },
+  });
   return response;
 };
 
