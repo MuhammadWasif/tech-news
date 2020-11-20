@@ -28,6 +28,21 @@ function Auth(props) {
     });
   };
 
+  const initAuth = async (data) => {
+    localStorage.setItem('auth_token', data.token);
+    localStorage.setItem(
+      'loggedin_user_tech_news',
+      JSON.stringify({
+        id: data.user.id,
+        username: data.user.username,
+      })
+    );
+    await setLoggedInUser({
+      id: data.user.id,
+      username: data.user.username,
+    });
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -40,19 +55,7 @@ function Auth(props) {
         },
       });
 
-      localStorage.setItem('auth_token', data.login.token);
-      localStorage.setItem(
-        'loggedin_user_tech_news',
-        JSON.stringify({
-          id: data.login.user.id,
-          username: data.login.user.username,
-        })
-      );
-      await setLoggedInUser({
-        id: data.login.user.id,
-        username: data.login.user.username,
-      });
-
+      await initAuth(data.login);
       history.push('/');
     } catch (error) {
       console.log(error);
@@ -69,20 +72,8 @@ function Auth(props) {
       const { data } = await signup({
         variables: { username, email, password },
       });
-      console.log(data);
-      localStorage.setItem('auth_token', data.createUser.token);
-      localStorage.setItem(
-        'loggedin_user_tech_news',
-        JSON.stringify({
-          id: data.createUser.user.id,
-          username: data.createUser.user.username,
-        })
-      );
 
-      await setLoggedInUser({
-        id: data.createUser.user.id,
-        username: data.createUser.user.username,
-      });
+      await initAuth(data.createUser);
       history.push('/');
     } catch (error) {
       console.log(error);

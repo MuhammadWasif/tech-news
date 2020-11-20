@@ -2,21 +2,25 @@ import { useQuery } from '@apollo/client';
 import { USER_QUERY } from '../graphql/queries';
 
 import Header from '../components/header';
+import Loader from '../components/loader';
 import Link from '../components/link';
+import { Redirect } from 'react-router-dom';
 
 function User(props) {
   const { data, loading } = useQuery(USER_QUERY, {
     variables: { username: props.match.params.username },
   });
 
-  if (data) console.log(data);
+  if (data && !data.user) return <Redirect to='/404' />;
 
   return (
     <div>
       <Header />
 
       {loading ? (
-        'Loading...'
+        <div className='user__loader'>
+          <Loader />
+        </div>
       ) : (
         <div className='user'>
           <div className='user__meta'>

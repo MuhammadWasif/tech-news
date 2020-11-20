@@ -8,6 +8,9 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 
+const httpURL = 'http://localhost:5000/';
+const wsURL = 'ws://localhost:5000/graphql';
+
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -18,11 +21,11 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const http = createHttpLink({
-  uri: 'http://localhost:5000/',
+  uri: httpURL,
 });
 
 const ws = new WebSocketLink({
-  uri: `ws://localhost:5000/graphql`,
+  uri: wsURL,
   options: {
     reconnect: true,
     connectionParams: {

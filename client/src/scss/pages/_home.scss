@@ -5,6 +5,11 @@
 
   &__links {
     @include container(60%);
+    @include flex-center;
+    flex-direction: column;
+    &--loader {
+      margin-top: 2rem;
+    }
   }
 
   &__new {

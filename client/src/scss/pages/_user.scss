@@ -1,6 +1,10 @@
 .user {
   @include flex-center;
   flex-direction: column;
+  &__loader {
+    @include flex-center;
+    margin-top: 2rem;
+  }
   &__meta {
     font-family: $secondary-font;
     text-align: center;

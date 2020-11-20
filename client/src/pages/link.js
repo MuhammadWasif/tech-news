@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { useHistory, Link as Goto } from 'react-router-dom';
+import { useHistory, Link as Goto, Redirect } from 'react-router-dom';
 import { useSnackbar } from 'react-simple-snackbar';
 import moment from 'moment';
 import { BiSend } from 'react-icons/bi';
@@ -24,7 +24,7 @@ function Link(props) {
 
   const [text, setText] = useState('');
 
-  const { data, loading } = useQuery(SINGLE_LINK_QUERY, {
+  const { data, loading, error } = useQuery(SINGLE_LINK_QUERY, {
     variables: { id: props.match.params.id },
     fetchPolicy: 'cache-and-network',
     pollInterval: 500,
@@ -72,6 +72,7 @@ function Link(props) {
   };
 
   if (errorComment) alert('An error occurred while posting comment');
+  if (error) return <Redirect to='/404' />;
   return (
     <div>
       <Header />
