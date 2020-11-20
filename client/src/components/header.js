@@ -1,12 +1,19 @@
 import { useContext } from 'react';
+import { useSubscription } from '@apollo/client';
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import { FaRegNewspaper } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import { GlobalContext } from '../context/GlobalState';
+import { UPVOTE_LINK_SUB } from '../graphql/subscriptions';
 
 function Header() {
   const { state, setLoggedInUser } = useContext(GlobalContext);
+
+  const { error } = useSubscription(UPVOTE_LINK_SUB);
+
+  if (error) console.error(error);
+
   return (
     <div className='header'>
       <Link to='/'>

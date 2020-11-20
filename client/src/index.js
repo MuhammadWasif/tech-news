@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import client from './graphql';
 import { Provider } from './context/GlobalState';
+import SnackbarProvider from 'react-simple-snackbar';
 
 ReactDOM.render(
   <Provider>
     <ApolloProvider client={client}>
-      <App />
+      <SnackbarProvider>
+        <App />
+      </SnackbarProvider>
     </ApolloProvider>
   </Provider>,
   document.getElementById('root')

@@ -1,8 +1,9 @@
 import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useHistory, Link as Goto } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
 import moment from 'moment';
-import { BiSend, BiLike } from 'react-icons/bi';
+import { BiSend } from 'react-icons/bi';
 import { AiFillLike, AiOutlineDelete, AiOutlineLike } from 'react-icons/ai';
 
 import Header from '../components/header';
@@ -16,15 +17,17 @@ import { GlobalContext } from '../context/GlobalState';
 
 function Link(props) {
   const { state } = useContext(GlobalContext);
+  const [message] = useSnackbar({ style: { backgroundColor: '#ea5b0c' } });
   const { loggedInUser } = state;
 
   const histroy = useHistory();
 
   const [text, setText] = useState('');
 
-  const { data, loading, error } = useQuery(SINGLE_LINK_QUERY, {
+  const { data, loading } = useQuery(SINGLE_LINK_QUERY, {
     variables: { id: props.match.params.id },
     fetchPolicy: 'cache-and-network',
+    pollInterval: 500,
   });
   const [
     sendComment,
@@ -33,10 +36,6 @@ function Link(props) {
   const [voteComment] = useMutation(UPVOTE_COMMENT);
   const [deleteLink] = useMutation(DELETE_LINK);
 
-  if (error) {
-    console.log(error);
-  }
-
   const postComment = async () => {
     if (text.trim() === '') return;
 
@@ -44,7 +43,7 @@ function Link(props) {
       let response = await sendComment({
         variables: { text, repliedTo: props.match.params.id },
       });
-
+      setText('');
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -57,6 +56,7 @@ function Link(props) {
       console.log(response);
     } catch (error) {
       console.log(error);
+      message('An error occurred. Please make sure you are logged in');
     }
   };
 
@@ -93,7 +93,8 @@ function Link(props) {
                 </span>{' '}
                 on {moment(Number(data.link.createdAt)).format('MMM DD, YYYY')}
               </h4>
-              {loggedInUser.id === data.link.postedBy.id ? (
+
+              {loggedInUser?.id === data.link.postedBy.id ? (
                 <div onClick={() => deleteLinkHandler(props.match.params.id)}>
                   <AiOutlineDelete />
                 </div>
@@ -107,19 +108,17 @@ function Link(props) {
                     key={comment.id}
                     className='single-link__comments--comment'
                   >
-                    <p>
-                      {comment.text} <br />
-                      <i>
-                        by{' '}
-                        <Goto to={`/u/${comment.postedBy.username}`}>
-                          {comment.postedBy.username}
-                        </Goto>{' '}
-                        on{' '}
-                        {moment(Number(comment.createdAt)).format(
-                          'MMM DD, YYYY'
-                        )}
-                      </i>
-                    </p>
+                    <Goto to={`/u/${comment.postedBy.username}`}>
+                      <p>
+                        {comment.text} <br />
+                        <i>
+                          by {comment.postedBy.username} on{' '}
+                          {moment(Number(comment.createdAt)).format(
+                            'MMM DD, YYYY'
+                          )}
+                        </i>
+                      </p>
+                    </Goto>
 
                     <p>
                       <span onClick={() => upvoteComment(comment.id)}>
@@ -138,18 +137,22 @@ function Link(props) {
               })}
             </div>
 
-            <div className='single-link__new'>
-              <input
-                type='text'
-                placeholder='Add a comment...'
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <br />
-              <button disabled={commentLoading} onClick={postComment}>
-                <BiSend />
-              </button>
-            </div>
+            {loggedInUser ? (
+              <div className='single-link__new'>
+                <input
+                  type='text'
+                  placeholder='Add a comment...'
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+                <br />
+                <button disabled={commentLoading} onClick={postComment}>
+                  <BiSend />
+                </button>
+              </div>
+            ) : (
+              <i>Login to comment</i>
+            )}
           </>
         )}
       </div>

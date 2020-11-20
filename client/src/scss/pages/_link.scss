@@ -43,6 +43,7 @@
       @include input-styles;
       background-color: #efefef;
       text-align: left;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
     & button {
       @include button-styles($primary-color, white);

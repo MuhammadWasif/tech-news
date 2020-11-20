@@ -18,11 +18,16 @@ function User(props) {
       {loading ? (
         'Loading...'
       ) : (
-        <div>
-          <h3>Username: {data.user.username}</h3>
-          <h3>Points: {data.user.points}</h3>
+        <div className='user'>
+          <div className='user__meta'>
+            <h3>Username: {data.user.username}</h3>
+            <h3>Points: {data.user.points}</h3>
+            <small>
+              <i>Points are calculated by links posted</i>
+            </small>
+          </div>
 
-          <div style={{ padding: 36 }}>
+          <div className='user__links'>
             {data.user.links.map((e, index) => (
               <Link key={e.id} index={index + 1} {...e} />
             ))}

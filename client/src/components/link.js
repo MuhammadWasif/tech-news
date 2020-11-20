@@ -21,7 +21,9 @@ function Link({
   const { state } = useContext(GlobalContext);
   const { loggedInUser } = state;
 
-  const [upvote, { loading }] = useMutation(UPVOTE_LINK, { variables: { id } });
+  const [upvote, { loading }] = useMutation(UPVOTE_LINK, {
+    variables: { id },
+  });
   const formattedDate = moment(new Date(Number(createdAt))).format(
     'MMM DD, YYYY'
   );

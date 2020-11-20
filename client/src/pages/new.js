@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import Header from '../components/header';
+import { GlobalContext } from '../context/GlobalState';
 import { CREATE_LINK } from '../graphql/mutations';
 
 function New(props) {
   const [data, setData] = useState({});
+  const { state } = useContext(GlobalContext);
 
   const history = useHistory();
 
@@ -32,6 +34,9 @@ function New(props) {
       console.log(error);
     }
   };
+
+  const { loggedInUser } = state;
+  if (!loggedInUser) return <Redirect to={`/auth`} />;
 
   return (
     <div>
