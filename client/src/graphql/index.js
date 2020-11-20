@@ -8,12 +8,11 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 
-const token = localStorage.getItem('auth_token');
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: `Bearer ${localStorage.getItem('auth_token')}`,
     },
   };
 });
@@ -27,7 +26,7 @@ const ws = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      Authorization: token ? `Bearer ${token}` : '',
+      Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
     },
   },
 });

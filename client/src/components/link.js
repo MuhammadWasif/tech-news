@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as Goto } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import moment from 'moment';
@@ -21,6 +22,8 @@ function Link({
   const { state } = useContext(GlobalContext);
   const { loggedInUser } = state;
 
+  const [message] = useSnackbar({ style: { backgroundColor: '#ea5b0c' } });
+
   const [upvote, { loading }] = useMutation(UPVOTE_LINK, {
     variables: { id },
   });
@@ -28,6 +31,16 @@ function Link({
     'MMM DD, YYYY'
   );
   const likedByUser = votes.filter((vote) => vote.id === loggedInUser?.id);
+
+  const upvoteHandler = async () => {
+    try {
+      const response = await upvote();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      message('An error occurred. Please make sure you are logged in.');
+    }
+  };
 
   return (
     <div className='link'>
@@ -48,7 +61,7 @@ function Link({
         <div className='link__container--details-container'>
           <div
             className='link__container--votes'
-            onClick={!loading ? upvote : null}
+            onClick={!loading ? upvoteHandler : null}
           >
             {likedByUser.length !== 0 ? (
               <AiFillLike color='#ea5b0c' />

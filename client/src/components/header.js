@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { GlobalContext } from '../context/GlobalState';
 import { UPVOTE_LINK_SUB } from '../graphql/subscriptions';
+import client from '../graphql';
 
 function Header() {
   const { state, setLoggedInUser } = useContext(GlobalContext);
@@ -31,6 +32,7 @@ function Header() {
             onClick={async () => {
               localStorage.clear();
               await setLoggedInUser(null);
+              client.clearStore();
             }}
           >
             <AiOutlineLogout style={{ marginRight: 4 }} /> Logout
