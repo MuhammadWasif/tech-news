@@ -32,6 +32,7 @@ const createLink = async (_, args, context, ___) => {
 const links = async () => {
   try {
     const links = await Link.find({})
+      .sort({ createdAt: -1 })
       .populate('postedBy')
       .populate('votes')
       .populate({ path: 'comments', populate: { path: 'postedBy' } })

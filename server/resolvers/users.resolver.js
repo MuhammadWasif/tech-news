@@ -46,6 +46,7 @@ const user = async (_, args, __, ___) => {
   try {
     const user = await User.findOne({ username });
     const links = await Link.find({ postedBy: user.id })
+      .sort({ createdAt: -1 })
       .populate('votes')
       .populate('comments')
       .populate('postedBy')
