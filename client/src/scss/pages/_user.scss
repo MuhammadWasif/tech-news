@@ -19,3 +19,11 @@
     margin-top: 2.6rem;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .user {
+    &__links {
+      @include container(90%);
+    }
+  }
+}

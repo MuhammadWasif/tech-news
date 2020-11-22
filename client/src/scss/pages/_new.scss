@@ -32,3 +32,10 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .new {
+    @include container(90%);
+    margin-top: 1rem;
+  }
+}

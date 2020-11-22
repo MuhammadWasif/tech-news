@@ -3,11 +3,13 @@ import { useMutation } from '@apollo/client';
 import { useHistory, Redirect } from 'react-router-dom';
 
 import Header from '../components/header';
+import Loader from '../components/loader';
 import { GlobalContext } from '../context/GlobalState';
 import { CREATE_LINK } from '../graphql/mutations';
 
 function New(props) {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const { state } = useContext(GlobalContext);
 
   const history = useHistory();
@@ -26,6 +28,7 @@ function New(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const { data } = await postLink();
       console.log(data);
@@ -33,6 +36,7 @@ function New(props) {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const { loggedInUser } = state;
@@ -58,7 +62,7 @@ function New(props) {
             onChange={handleChange}
           />
 
-          <button type='submit'>Submit</button>
+          <button type='submit'> {loading ? <Loader /> : 'Submit'} </button>
         </form>
       </div>
     </div>

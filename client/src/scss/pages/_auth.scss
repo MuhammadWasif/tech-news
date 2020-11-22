@@ -48,3 +48,10 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .auth {
+    @include container(90%);
+    margin-top: 1rem;
+  }
+}
