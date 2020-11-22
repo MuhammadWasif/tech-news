@@ -8,17 +8,18 @@
     Full Stack GraphQL (Apollo) web app with MongoDB and ReactJS
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">Open App</a>
+    <a href="https://tech-news-v1.netlify.app/">Open App</a>
   </p>
 </p>
 
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot](https://example.com)
+![Tech News Home Page](homepage-screenshot.png)
 
 This project is a Full Stack Application built with GraphQL with Apollo Server and Apollo Client. It uses MongoDB as database while hosting database on _MongoDB Atlas_. It uses React as UI Library. Application is containerized with Docker and these containers are deployed to _Heroku_
 
-👉🏽 [GraphQL API](https://tech-news-api.herokuapp.com/)
+👉🏽 [GraphQL API](https://tech-news-api.herokuapp.com/)  
+👉🏽 [Application](https://tech-news-v1.netlify.app/)
 
 ## Local Installation
 
@@ -48,8 +49,8 @@ docker-compose up
 It will take time for the first time but when containers are ready you can start development.
 
 You can access servers at  
-**React Client**: https://localhost:3000/  
-**GraphQL Server**: https://localhost:5000/
+**React Client**: http://localhost:3000/  
+**GraphQL Server**: http://localhost:5000/
 
 (You can change environment variables in `docker-compose.yml` file)
 
