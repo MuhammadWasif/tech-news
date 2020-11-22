@@ -14,7 +14,7 @@ services:
       - db
 
   client:
-    build: ./client
+    build: ./client/dockerfile.dev
     ports:
       - '3000:3000'
     volumes:
