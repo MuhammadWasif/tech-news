@@ -8,8 +8,8 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 
-const httpURL = 'https://tech-news-api.herokuapp.com/';
-const wsURL = 'wss://tech-news-api.herokuapp.com/';
+const httpURL = 'http://localhost:5000/';
+const wsURL = 'ws://localhost:5000/';
 
 const authLink = setContext((_, { headers }) => {
   return {
